@@ -1,4 +1,4 @@
-
+import os
 from datetime import datetime # for log file
 import speech_recognition as sr # for speech recognition
 
@@ -7,16 +7,15 @@ from text_to_speech import text_to_speech
 # Initialize recognizer
 recognizer = sr.Recognizer()
 
-from audio import play_audio_file
+from audio import play_crunch
 
 # Define the wake word/phrase
 WAKE_WORD = "doritos"
 
-
 def log_transcription(transcription: str):
     # log a file with transction-$date.txt, include the transcription
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    filename = f"transcription-{datetime.now().strftime('%Y-%m-%d')}.txt"
+    filename = f"transcripts/{datetime.now().strftime('%Y-%m-%d')}.txt"
     with open(filename, "a") as file:
         s = f"{timestamp}|{transcription}"
         print(s)
@@ -54,7 +53,7 @@ def handle_command(transcription: str):
 
     # mmand = transcription.replace(WAKE_WORD, "").strip()
     print("Command received, sending to ai:", command)
-    play_audio_file("working.mp3")
+    play_crunch()
     response = send_to_openai(command, queue_say)
     text_to_speech(response)
 
@@ -84,4 +83,9 @@ def listen_for_wake_word():
 
 
 if __name__ == "__main__":
+    paths = ["transcripts", "audio"]
+    for path in paths:
+        if not os.path.exists(path):
+            os.makedirs(path)
+    play_crunch()
     listen_for_wake_word()
