@@ -2,7 +2,7 @@
 
 ## 🚀 Introduction
 
-Welcome to the **just talking to Doritos** project! The goal of this project is to:
+Welcome to the **Doritos** project! The goal of this project is to:
 
 1. 🏆 **Build a helpful assistant** that outperforms "OK Google"
 2. 👨‍👩‍👧 **Collaborate with my kids** on writing the code
@@ -125,7 +125,7 @@ and make a branch for it.
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b recognize-user-by-voice`)
-3. Commit your changes (`git commit -m 'We can now recognize different users by their voice`)
+3. Commit your changes (`git commit -m 'We can now recognize different users by their voice'`)
 4. Push to the branch (`git push origin recognize-user-by-voice`)
 5. Open a Pull Request
 
