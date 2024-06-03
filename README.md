@@ -34,6 +34,18 @@ Then, using your mouth or similar, say something like:
  - "Hey doritos, what is the first line of the great gatsby?"
  - "Yo doritos, what is Kevin Durant's instragram name?"
 
+![What is KD's insta handle?](lore/usage1.png)
+
+You can customize it with environment variables:
+
+| Variable         | description                       | default        |
+|------------------|-----------------------------------|----------------|
+| `OPENAI_API_KEY` | Your API key                      | (none)         |
+| `LOCATION`       | The location we'll pass to the AI | Beach Lake, PA |
+| `WAKE_WORD`      | Word/phrase that we listen to     | doritos        |
+| `OPENAI_MODEL`   | Which model should we use?        | gpt-4o         |
+
+
 ## 🛠️ Dev Setup
 
 ### 📋 Pre-requisites

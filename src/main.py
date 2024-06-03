@@ -10,7 +10,7 @@ recognizer = sr.Recognizer()
 from audio import play_crunch
 
 # Define the wake word/phrase
-WAKE_WORD = "doritos"
+WAKE_WORD = os.environ.get('WAKE_WORD', "doritos")
 
 def log_transcription(transcription: str):
     # log a file with transction-$date.txt, include the transcription
@@ -18,7 +18,7 @@ def log_transcription(transcription: str):
     filename = f"transcripts/{datetime.now().strftime('%Y-%m-%d')}.txt"
     with open(filename, "a") as file:
         s = f"{timestamp}|{transcription}"
-        print(s)
+        print(f"📓 Logged: {s}")
         file.write(s + "\n")
 
 def get_transcription(audio: sr.AudioData) -> str:
@@ -30,7 +30,7 @@ def get_transcription(audio: sr.AudioData) -> str:
 
     except sr.UnknownValueError:
         # Handle unrecognized speech
-        print("Could not understand audio")
+        print("🙉 Could not understand audio (ignoring)")
     except sr.RequestError as e:
         # Handle API request errors
         print(f"Could not request results from Google Speech Recognition; {e}")
@@ -40,29 +40,26 @@ def contains_wake_word(transcription: str) -> bool:
 
 
 def queue_say(text: str):
-    print("queue_say:", text)
-    # text_to_speech(text)
+    pass
+    # print("queue_say:", text)
 
 def handle_command(transcription: str):
     # Handle the command
-    print("Handling command..." + transcription)
     parts = transcription.split(WAKE_WORD)
 
-    # everything after the first wake word is the command
+    # Everything after the first wake word is the command
     command = "".join(parts[1:]).strip()
 
-    # mmand = transcription.replace(WAKE_WORD, "").strip()
-    print("Command received, sending to ai:", command)
+    print("💬 Sending:", command)
     play_crunch()
     response = send_to_openai(command, queue_say)
+    print("💭 received:", response)
     text_to_speech(response)
 
-    print ("Response from OpenAI:", response)
 
 
 def listen_for_wake_word():
     with sr.Microphone() as source:
-        print(f"Listening for wake word:" + WAKE_WORD)
 
         # Do this forever!
         while True:
@@ -83,9 +80,15 @@ def listen_for_wake_word():
 
 
 if __name__ == "__main__":
+    # Make the directories we need in order to save the audio and transcripts
     paths = ["transcripts", "audio"]
     for path in paths:
         if not os.path.exists(path):
             os.makedirs(path)
+
+    # Play a sound to let them know we're awake.
     play_crunch()
+    print(f"🚀 Ready and listening for {WAKE_WORD}")
+
+    # Start listening
     listen_for_wake_word()
